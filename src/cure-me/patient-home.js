@@ -15,6 +15,8 @@ class PatientHome extends PolymerElement {
 <style>
   :host {
     display: block;
+    background: linear-gradient(to right, #c9d6ff, #e2e2e2);
+    overflow-y:hidden;
   }
 
   #search {
