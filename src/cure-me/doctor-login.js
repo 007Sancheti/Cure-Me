@@ -3,7 +3,7 @@ import '@polymer/paper-button/paper-button.js';
 import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-toast/paper-toast.js';
 import '@polymer/iron-form/iron-form.js';
-import './shared/API/ajax-call.js';
+import './shared/api/ajax-call.js';
 import '@polymer/app-route/app-location.js';
 /**
  * @customElement
@@ -15,21 +15,22 @@ class DoctorLogin extends PolymerElement {
       <style>
       :host {
         display: block;
-        height:80.8vh;
-        overflow-y:hidden;
-        background-size:cover;
       }
-        background-color: darkblue;
-        color: whitesmoke;
+      input[type=number] {
+        height: 45px;
+        width: 45px;
+        font-size: 25px;
+        text-align: center;
+        border: 1px solid #000000;
+    }
+      #login
+      {
+        background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
+        width:auto;
+        margin:70px auto;
+        padding:15px;
+        box-shadow:0px 0px 5px 5px;
       }
-        .form
-        {
-          background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
-          width:40%;
-          margin:70px auto;
-          padding:15px;
-          box-shadow:0px 0px 5px 5px;
-        }
         span{
           display:flex;
           margin-top: 10px;
@@ -39,11 +40,20 @@ class DoctorLogin extends PolymerElement {
       <app-location route={{route}}></app-location>
       <paper-toast text={{message}} id="toast"></paper-toast>
       <ajax-call id="ajax"></ajax-call>
-      <iron-form>
-      <form class="form">
-      <paper-input id="mobileNo" maxlength="10" type="text" label="Mobile Number"></paper-input>
-      <span>
-      <paper-button on-click="_signIn" raised id="loginBtn">LogIn</paper-button></span>
+      <iron-form id="login">
+      <form>
+      <paper-input id="mobileNumber" required allowed-pattern=[0-9] minlength="10" maxlength="10" label="Enter Mobile Number"></paper-input>
+     <div id="otp" hidden$=[[!visible]]>
+      <input id="codeBox1" type="number" maxlength="1" on-keyup="onKeyUpEvent" on-focus="onFocusEvent"/>
+      <input id="codeBox2" type="number" maxlength="1" on-keyup="onKeyUpEvent" on-focus="onFocusEvent"/>
+      <input id="codeBox3" type="number" maxlength="1" on-keyup="onKeyUpEvent" on-focus="onFocusEvent"/>
+      <input id="codeBox4" type="number" maxlength="1" on-keyup="onKeyUpEvent" on-focus="onFocusEvent"/>
+      <input id="codeBox5" type="number" maxlength="1" on-keyup="onKeyUpEvent" on-focus="onFocusEvent"/>    
+      </div>
+      <span><paper-button on-click="_sendOtp" raised id="requestOtp" hidden$=[[visible]]>Request Otp</paper-button></span>
+      <span><paper-button on-click="_sendOtp" raised id="requestOtp" hidden$=[[!visible]]>Resend Otp</paper-button>
+      <paper-button on-click="_handleSubmit" raised id="submit" hidden$=[[!visible]]>Submit</paper-button>
+      </span>
       </form>
       </iron-form>
     `;
@@ -53,7 +63,15 @@ class DoctorLogin extends PolymerElement {
       message:{
         type:String,
         value:''
-      }
+      },
+      visible:{
+        type:String,
+        value:false
+      },
+      otp:{
+        type:String,
+        value:''
+      },
     };
   }
   /**
@@ -62,7 +80,7 @@ class DoctorLogin extends PolymerElement {
   ready()
   {
     super.ready();
-    this.addEventListener('login-status', (e) => this._loginStatus(e))
+    this.addEventListener('ajax-response', (e) => this._loginStatus(e))
   }
   /**
    * 
@@ -70,15 +88,16 @@ class DoctorLogin extends PolymerElement {
    * validate if mobile No. has 10 digits or not
    * get the user details from the database
    */
-  _signIn(event){
-  const mobileNo=this.$.mobileNo.value;
-   if(mobileNo.length==10){
-    const mobileNumber = this.$.mobileNo.value;
-    let postObj={mobileNumber}
-     this.$.ajax._makeAjaxCall('post',`http://10.117.189.28:8085/hothoagies/login`,postObj,'login')  
+  _sendOtp(){
+  const mobileNumber= this.$.mobileNumber.value;
+   if(mobileNumber.length==10){
+    this.visible=true;
+    let postObj={mobileNumber:parseInt(mobileNumber)}
+     this.$.ajax._makeAjaxCall('post',`http://10.117.189.28:8085/hothoagies/login`,postObj,'')  
     }
     else{
-      alert('enter valid mobile no.')
+      this.message='enter valid mobile no.';
+      this.$.toast.open();
     }
   } 
   /**
@@ -89,18 +108,56 @@ class DoctorLogin extends PolymerElement {
    */
   _loginStatus(event)
   {
-    const data=event.detail.data;
+      const data=event.detail.data;
       this.message=`${data.message}`
       this.$.toast.open();
+      if(data.role='Doctor'){
       sessionStorage.setItem('userId',data.userId);
-      if(event.detail.data.statusCode!=404){
-      sessionStorage.setItem('isLogin',true);
-      if(data.role=='CUSTOMER')
-      this.set('route.path','./user-home')
-      else if(data.role=='STAFF')
-      this.set('route.path','./staff-home')
+      this.set('route.path','./doctor-dashboard')
+}
+  }
+_handleSubmit(){
+  const mobileNumber= this.$.mobileNumber.value;
+  for(let i=1;i<=5;i++)
+  {
+    let input=this.getCodeBoxElement(i).value;
+     this.otp+=input;
+  }
+  let postObj={mobileNumber:parseInt(mobileNumber),otp:parseInt(this.otp)}
+  console.log(postObj)
+  this.$.ajax._makeAjaxCall('post',`http://10.117.189.28:8085/hothoagies/login`,postObj,'ajaxResponse')  
+}
+getCodeBoxElement(index) {
+  return this.shadowRoot.getElementById('codeBox' + index);
+}
+ onKeyUpEvent(event) {
+   let id=event.target.id
+   let index=parseInt(id.substr(7,8))
+  const eventCode = event.which || event.keyCode;
+  if (this.getCodeBoxElement(index).value.length === 1) {
+    if (index !== 5) {
+      this.getCodeBoxElement(index+1).focus();
+    } else {
+      this.getCodeBoxElement(index).blur();
+
+    }
+  }
+  if (eventCode === 8 && index !== 1) {
+    this.getCodeBoxElement(index - 1).focus();
   }
 }
+ onFocusEvent(event) {
+  let id=event.target.id
+  let index=id.substr(7,8)
+  for (let item = 1; item < index; item++) {
+    const currentElement = this.getCodeBoxElement(item);
+    if (!currentElement.value) {
+        currentElement.focus();
+        break;
+    }
+  }
+}
+
 }
 
 window.customElements.define('doctor-login', DoctorLogin);
