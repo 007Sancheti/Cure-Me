@@ -12,7 +12,11 @@ class DoctorDashboard extends PolymerElement {
           display: block;
         }
       </style>
-      <h2>Hello [[prop1]]!</h2>
+      <form class="form">
+     <h2>I am a</h2>
+      <paper-button on-click="_handleClick" raised id="doctorLogin">Doctor</paper-button>
+      <paper-button on-click="_handleClick" raised id="patientHome">Patient</paper-button>
+      </form>
     `;
   }
   static get properties() {
