@@ -6,7 +6,7 @@
     "src/cure-me/book-slot.js",
     "src/cure-me/doctor-dashboard.js",
     "src/cure-me/doctor-login.js",
-    "src/cure-me/error-page.js.js",
+    "src/cure-me/error-page.js",
     "src/cure-me/landing-page.js",
     "src/cure-me/patient-home.js",
     "src/cure-me/shared/api/ajax-call.js",
