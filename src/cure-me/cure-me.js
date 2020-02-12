@@ -115,7 +115,7 @@ class CureMe extends PolymerElement {
               <app-toolbar class="heading">
                 <paper-icon-button class="menu-button" icon="menu" drawer-toggle hidden$="{{wideLayout}}">
                 </paper-icon-button>
-                <span class="heading-title">ForX Transfer</span>
+                <span class="heading-title">Cure Me</span>
                 <paper-button raised id="logout" hidden$={{!login}} on-click="_logOut">Log Out</paper-button>
                 </app-toolbar>
                 <!-- Nav on desktop: tabs -->
