@@ -2,6 +2,8 @@ import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
 import './shared/api/ajax-call.js';
 import '@polymer/paper-button/paper-button.js';
+import '@polymer/iron-icons/iron-icons.js';
+import '@polymer/iron-icon/iron-icon.js';
 /**
 * @customElement
 * @polymer
@@ -36,7 +38,7 @@ class PatientHome extends PolymerElement {
   #search-container {
     display: grid;
     grid-template-columns: 300px auto;
-    grid-template-areas: 'g1 g2';
+    grid-template-areas: 'g1 g2''g3 g3';
   }
 
   #grid1 {
@@ -46,7 +48,9 @@ class PatientHome extends PolymerElement {
   #grid2 {
     grid-area: g2;
   }
-
+  #grid3 {
+    grid-area: g3;
+  }
   #location-name {
     width:200px;
     padding: 10px;
@@ -71,7 +75,7 @@ class PatientHome extends PolymerElement {
 <div id="grid3">
 <template is="dom-repeat" items={{doctorsList}}>
 <div>
-{{doctorList.doctorName}}
+<iron-icon icon="menu"></iron-icon>{{item.doctorName}}
 </div>
 </template>
 </div>
@@ -91,13 +95,19 @@ class PatientHome extends PolymerElement {
       hide: {
         type: Boolean,
         value: false
+      },
+      doctorsList:{
+        type:Array,
+        value:[{
+          doctorName:"Dr.Abhinav"
+        }]
       }
     };
   }
   ready()
   {
     super.ready();
-    this.addEventListener('ajax-response',e=>_doctorsList(e))
+    this.addEventListener('ajax-response',e=> this._doctorsList(e))
     this.hide=true;
   }
   /**
@@ -122,12 +132,18 @@ class PatientHome extends PolymerElement {
     this.$.field.value = event.model.item
     this.hide = true;
   }
-  _handleSearch(event)
+  _handleSearch()
   {
     const search= this.$.search.value;
-    this.$.ajax._makeAjaxCall('get',`http://10.117.189.245:9090/cureme/users?location=${this.filterVal}&searchkey=${search}`,null,'ajaxResponse')
+    const location=this.$.field.value;
+    this.$.ajax._makeAjaxCall('get',`${baseUrl}/cureme/users?location=${location}&searchkey=${search}`,null,'ajaxResponse')
   }
-  _doctorsList
+  _doctorsList(event)
+  {
+    console.log(event.detail.data)
+    this.doctorsList=event.detail.data;
+    console.log(this.doctorsList)
+  }
 }
 
 window.customElements.define('patient-home', PatientHome);
