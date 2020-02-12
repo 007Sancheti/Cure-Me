@@ -1,5 +1,5 @@
-import { html, PolymerElement } from './node_modules/@polymer/polymer/polymer-element.js.js';
-import './node_modules/@polymer/iron-ajax/iron-ajax.js.js'
+import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
+import '@polymer/iron-ajax/iron-ajax.js'
 /**
  * @customElement
  * @polymer

@@ -1,5 +1,6 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
+import './shared/api/ajax-call.js';
 import '@polymer/paper-button/paper-button.js';
 /**
 * @customElement
@@ -55,6 +56,7 @@ class PatientHome extends PolymerElement {
   }
 </style>
 <h2>Hello [[prop1]]!</h2>
+<ajax-call id="ajax"></ajax-call>
 <div id="search-container">
   <div id="grid1">
 <input id="field" placeholder="Location" value="{{filterVal::input}}" />
