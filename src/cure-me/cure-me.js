@@ -118,15 +118,6 @@ class CureMe extends PolymerElement {
                 <span class="heading-title">Cure Me</span>
                 <paper-button raised id="logout" hidden$={{!login}} on-click="_logOut">Log Out</paper-button>
                 </app-toolbar>
-                <!-- Nav on desktop: tabs -->
-                <nav class="tabs-bar" hidden$="{{!wideLayout}}">
-                  <template is="dom-repeat" items="{{items}}">
-                  <ul>
-                <li><a href="[[rootPath]]{{item.route}}">{{item.label}}</a></li>
-                 </ul>
-                  </template>
-                 </nav>
-              </app-toolbar>
               <iron-pages selected="[[page]]" attr-for-selected="name" role="main" fallback-selection="error404">
                 <add-slot id="add-slot" name="add-slot"></add-slot>
                 <book-slot id="book-slot" name="book-slot" doctor-name={{doctorName}}></book-slot>
@@ -156,12 +147,6 @@ class CureMe extends PolymerElement {
       login: {
         type: Boolean,
         value: false
-      },
-      items: {
-        type: Array,
-        value: function () {
-          return [{ label: 'add-slot', route: 'add-slot' },{ label: 'book-slot', route: 'book-slot' }, { label: 'doctor-login', route: 'doctor-login' },{ label: 'doctor-dashboard', route: 'doctor-dashboard' },{ label: 'landing-page', route: 'landing-page' },{ label: 'patient-home', route: 'patient-home' }]
-        }
       }
     };
   }
@@ -206,7 +191,7 @@ class CureMe extends PolymerElement {
      *@param {String} page Value of new page
     **/
   _routerChanged(page) {
-    this.page = page || 'login';
+    this.page = page || 'landing-page';
   }
   /**
    *onLayoutChange() is a simple observer which is triggered when wideLayout Property is changed.
