@@ -15,6 +15,9 @@ class DoctorLogin extends PolymerElement {
       <style>
       :host {
         display: block;
+        background: linear-gradient(to right, #c9d6ff, #e2e2e2);
+        overflow-y:hidden;
+        height:80vh;
       }
       input[type=number] {
         height: 45px;
@@ -25,7 +28,7 @@ class DoctorLogin extends PolymerElement {
     }
       #login
       {
-        background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
+        background: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
         width:50%;
         margin:70px auto;
         padding:15px;

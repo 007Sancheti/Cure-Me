@@ -17,14 +17,20 @@ class AddSlot extends PolymerElement {
   static get template() {
     return html`
     <style>
+    :host {
+      display: block;
+      background: linear-gradient(to right, #c9d6ff, #e2e2e2);
+      overflow-y:hidden;
+    }
     #form{
         display:flex;
         flex-direction:column;
           border:2px solid black;
           border-radius:5px;
           padding:20px;
-      margin: 10px auto;
-          width:500px
+          margin: 10px auto;
+          width:500px;
+          background:white;
       }
       #addSlot{
           background-color:blue;

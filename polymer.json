@@ -2,6 +2,16 @@
   "entrypoint": "index.html",
   "shell": "src/cure-me/cure-me.js",
   "fragments": [
+    "src/cure-me/add-slot.js",
+    "src/cure-me/book-slot.js",
+    "src/cure-me/doctor-dashboard.js",
+    "src/cure-me/doctor-login.js",
+    "src/cure-me/error-page.js",
+    "src/cure-me/landing-page.js",
+    "src/cure-me/patient-home.js",
+    "src/cure-me/shared/api/ajax-call.js",
+    "src/cure-me/shared/shared-styles.js",
+    "src/cure-me/shared/smart-accordion.js"
   ],
   "sources": [
    "src/**/*",

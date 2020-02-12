@@ -14,9 +14,11 @@ class BookSlot extends PolymerElement {
   static get template() {
     return html`
       <style>
-        :host {
-          display: block;
-        }
+      :host {
+        display: block;
+        background: linear-gradient(to right, #c9d6ff, #e2e2e2);
+        overflow-y:hidden;
+      }
         paper-button
         {
           width:100%;
