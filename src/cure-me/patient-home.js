@@ -68,6 +68,13 @@ class PatientHome extends PolymerElement {
 <input type="text" id="search" placeholder="Search Doctors or By Speciality" />
 <paper-button raised on-click="_handleSearch">Search</paper-button>
 </div>
+<div id="grid3">
+<template is="dom-repeat" items={{doctorsList}}>
+<div>
+{{doctorList.doctorName}}
+</div>
+</template>
+</div>
 </div>
 `;
   }
@@ -90,6 +97,7 @@ class PatientHome extends PolymerElement {
   ready()
   {
     super.ready();
+    this.addEventListener('ajax-response',e=>_doctorsList(e))
     this.hide=true;
   }
   /**
@@ -114,11 +122,12 @@ class PatientHome extends PolymerElement {
     this.$.field.value = event.model.item
     this.hide = true;
   }
-  _handleSearch()
+  _handleSearch(event)
   {
     const search= this.$.search.value;
-    this.$.ajax._makeAjaxCall('get',`http://10.117.189.245:9090/cureme/users?location=bangalore&searchkey=cough`,null,'search')
+    this.$.ajax._makeAjaxCall('get',`http://10.117.189.245:9090/cureme/users?location=${this.filterVal}&searchkey=${search}`,null,'ajaxResponse')
   }
+  _doctorsList
 }
 
 window.customElements.define('patient-home', PatientHome);
