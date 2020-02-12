@@ -1,0 +1,40 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/cure-me/cure-me.js",
+  "fragments": [
+  ],
+  "sources": [
+   "src/**/*",
+   "manifest/**",
+   "images/**/*",
+   "package.json"
+  ],
+  "extraDependencies": [
+    "manifest.json",
+    "node_modules/@webcomponents/webcomponentsjs/**"
+  ],
+  "moduleResolution": "node",
+  "npm": true,
+  "builds": [
+    { 
+      "name": "es5prod",
+      "preset": "es5-bundled",
+      "addServiceWorker": true
+    },
+    { 
+      "name": "es6prod",
+      "preset": "es6-unbundled",
+      "addServiceWorker": true
+    },
+    { 
+      "name": "es6-bundled",
+      "preset": "es6-bundled",
+      "addServiceWorker": true
+    }
+  ],
+  "lint":{
+    "rules":[
+      "polymer-3"
+    ]
+  }
+}
