@@ -127,7 +127,7 @@ class PatientHome extends PolymerElement {
     const search= this.$.search.value;
     this.$.ajax._makeAjaxCall('get',`http://10.117.189.245:9090/cureme/users?location=${this.filterVal}&searchkey=${search}`,null,'ajaxResponse')
   }
-  _doctorsList
+
 }
 
 window.customElements.define('patient-home', PatientHome);

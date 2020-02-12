@@ -64,7 +64,8 @@ class DoctorDashboard extends PolymerElement {
     return {
       patientDetails: {
         type: Array,
-        value: []
+        value: [{slotTime:'1234567',slotDate:'1234567',disease:'1234567',mobileNumber:'1234567',emailId:'1234567'},{slotTime:'1234567',slotDate:'1234567',disease:'1234567',mobileNumber:'1234567',emailId:'1234567'},{slotTime:'1234567',slotDate:'1234567',disease:'1234567',mobileNumber:'1234567',emailId:'1234567'}
+        ]
       }
     };
   }
@@ -81,11 +82,11 @@ class DoctorDashboard extends PolymerElement {
    */
   connectedCallback()
   {  super.connectedCallback();
-     this.$.ajax._makeAjaxCall('get',`http://10.117.189.245:9090/forxtransfer/customers/${sessionStorage.getItem('userId')}/transactions?month=9&year=2019`,null,'ajaxResponse')  
+    //  this.$.ajax._makeAjaxCall('get',`http://10.117.189.245:9090/forxtransfer/customers/${sessionStorage.getItem('userId')}/transactions?month=9&year=2019`,null,'ajaxResponse')  
   }
   //populating data in dom repeat for account details
   _patientDetails(event){  
-    this.patientDetails=event.detail.data
+    this.patientDetails=event.detail.data;
 }
 }
 
