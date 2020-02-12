@@ -59,7 +59,6 @@ class PatientHome extends PolymerElement {
     cursor: pointer;
   }
 </style>
-<h2>Hello [[prop1]]!</h2>
 <ajax-call id="ajax"></ajax-call>
 <div id="search-container">
   <div id="grid1">
