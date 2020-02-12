@@ -93,7 +93,7 @@ class DoctorLogin extends PolymerElement {
    if(mobileNumber.length==10){
     this.visible=true;
     let postObj={mobileNumber:parseInt(mobileNumber)}
-     this.$.ajax._makeAjaxCall('post',`http://10.117.189.28:8085/hothoagies/login`,postObj,'')  
+     this.$.ajax._makeAjaxCall('post',`http://10.117.189.28:9090/cureme/users`,postObj,'')  
     }
     else{
       this.message='enter valid mobile no.';
@@ -113,6 +113,7 @@ class DoctorLogin extends PolymerElement {
       this.$.toast.open();
       if(data.role='Doctor'){
       sessionStorage.setItem('userId',data.userId);
+      sessionStorage.setItem('doctorId',data.doctorId);
       this.set('route.path','./doctor-dashboard')
 }
   }
@@ -125,7 +126,7 @@ _handleSubmit(){
   }
   let postObj={mobileNumber:parseInt(mobileNumber),otp:parseInt(this.otp)}
   console.log(postObj)
-  this.$.ajax._makeAjaxCall('post',`http://10.117.189.28:8085/hothoagies/login`,postObj,'ajaxResponse')  
+  this.$.ajax._makeAjaxCall('post',`http://10.117.189.28:9090/cureme/otp`,postObj,'ajaxResponse')  
 }
 getCodeBoxElement(index) {
   return this.shadowRoot.getElementById('codeBox' + index);

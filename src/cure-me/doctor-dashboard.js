@@ -36,14 +36,17 @@ class DoctorDashboard extends PolymerElement {
                      text-align: left;
                      background-color:gray;
                    }
+                   #slotTable{
+                     margin-top:10px
+                   }
       </style>
       <app-location route={{route}}></app-location>
       <ajax-call id="ajax"></ajax-call>
-      <table>
+      <table id="slotTable">
       <th>Time</th>
-      <th>Date</th>
+      <th>Date(YYYY-MM-DD)</th>
       <th>Disease</th>
-      <th>mobileNumbert</th>
+      <th>Mobile No</th>
       <th>Email</th>
 <tbody>
   <template is="dom-repeat" items={{patientDetails}}>
@@ -82,11 +85,11 @@ class DoctorDashboard extends PolymerElement {
    */
   connectedCallback()
   {  super.connectedCallback();
-    //  this.$.ajax._makeAjaxCall('get',`http://10.117.189.245:9090/forxtransfer/customers/${sessionStorage.getItem('userId')}/transactions?month=9&year=2019`,null,'ajaxResponse')  
+     this.$.ajax._makeAjaxCall('get',`http://10.117.189.176:9090/cureme/slots/doctors/1`,null,'ajaxResponse')  
   }
   //populating data in dom repeat for account details
   _patientDetails(event){  
-    this.patientDetails=event.detail.data;
+    this.patientDetails=event.detail.data.slots;
 }
 }
 
