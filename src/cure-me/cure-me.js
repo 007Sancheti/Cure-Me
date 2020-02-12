@@ -188,7 +188,7 @@ class CureMe extends PolymerElement {
         break;
       case 'patient-home': import('./patient-home.js')
         break;
-      default: import('./error-view.js')
+      default: import('./error-page.js')
         break;
     }
   }
