@@ -129,7 +129,7 @@ class CureMe extends PolymerElement {
               </app-toolbar>
               <iron-pages selected="[[page]]" attr-for-selected="name" role="main" fallback-selection="error404">
                 <add-slot id="add-slot" name="add-slot"></add-slot>
-                <book-slot id="book-slot" name="book-slot"></book-slot>
+                <book-slot id="book-slot" name="book-slot" doctor-name={{doctorName}}></book-slot>
                 <doctor-login name="doctor-login"></doctor-login>
                 <doctor-dashboard name="doctor-dashboard"></doctor-dashboard>
                 <landing-page name="landing-page"></landing-page>
@@ -167,6 +167,11 @@ class CureMe extends PolymerElement {
   }
   ready() {
     super.ready();
+    this.addEventListener('refresh-name',(e)=>this._refreshName(e))
+  }
+  _refreshName(event)
+  {
+    this.doctorName=event.detail.item
   }
   /**
   *simple observer which is triggered when page property is changed

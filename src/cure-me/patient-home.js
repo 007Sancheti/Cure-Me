@@ -4,6 +4,7 @@ import './shared/api/ajax-call.js';
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/iron-icon/iron-icon.js';
+import '@polymer/app-route/app-location.js';
 /**
 * @customElement
 * @polymer
@@ -37,6 +38,7 @@ class PatientHome extends PolymerElement {
 
   #search-container {
     display: grid;
+    margin-top:10px;
     grid-template-columns: 300px auto;
     grid-template-areas: 'g1 g2''g3 g3';
   }
@@ -58,8 +60,28 @@ class PatientHome extends PolymerElement {
     text-align: initial;
     cursor: pointer;
   }
+  ul
+  {
+    display:flex;
+    list-style:none;
+    align-items: center;
+    background:lightgreen;
+    height:40px;
+    margin-top:10px;
+    cursor: pointer;
+    justify-content:space-between;
+  }
+  li
+  {
+    width:60px;
+  }
+  iron-icon
+  {
+    transform:translate(0px,-2px);
+  }
 </style>
 <ajax-call id="ajax"></ajax-call>
+<app-location route="{{route}}"></app-location>
 <div id="search-container">
   <div id="grid1">
 <input id="field" placeholder="Location" value="{{filterVal::input}}" />
@@ -73,9 +95,17 @@ class PatientHome extends PolymerElement {
 </div>
 <div id="grid3">
 <template is="dom-repeat" items={{doctorsList}}>
-<div>
-<iron-icon icon="menu"></iron-icon>{{item.doctorName}}
-</div>
+<ul on-click="_handleView">
+<li>{{item.doctorId}}</li>
+<li>{{item.doctorName}}</li>
+<li>{{item.doctorName}}</li>
+<li>{{item.qualification}}</li>
+<li>{{item.experience}}</li>
+<li>{{item.specialization}}</li>
+<li>{{item.diseaseCure}}</li>
+<li>{{item.rating}}<iron-icon icon="star"></iron-icon></li>
+<li>{{item.location}}</li>
+</ul>
 </template>
 </div>
 </div>
@@ -83,10 +113,6 @@ class PatientHome extends PolymerElement {
   }
   static get properties() {
     return {
-      prop1: {
-        type: String,
-        value: 'patient-home'
-      },
       items: {
         type: Array,
         value: ['bangalore','Electronic city', 'Delhi', 'Bannerghatta']
@@ -98,8 +124,25 @@ class PatientHome extends PolymerElement {
       doctorsList:{
         type:Array,
         value:[{
-          doctorName:"Dr.Abhinav"
-        }]
+          doctorId:1,
+          doctorName:"Dr.Muthu",
+          qualification:"String",
+          experience:1.5,
+          specialization:"String",
+          diseaseCure:"String",
+          rating:5,
+          location:"String"
+          },
+          {
+            doctorId:2,
+            doctorName:"Dr.Sri Keerthana",
+            qualification:"String",
+            experience:1.5,
+            specialization:"String",
+            diseaseCure:"String",
+            rating:5,
+            location:"String"
+            }]
       }
     };
   }
@@ -142,6 +185,14 @@ class PatientHome extends PolymerElement {
     console.log(event.detail.data)
     this.doctorsList=event.detail.data;
     console.log(this.doctorsList)
+  }
+  _handleView(event)
+  {
+    console.log(event.model.item)
+    let obj=event.model.item
+    sessionStorage.setItem('selectedDoctor',JSON.stringify(obj));
+    this.dispatchEvent(new CustomEvent('refresh-name',{detail:{item:obj.doctorName},composed:true,bubbles:true}))
+    this.set('route.path','./book-slot')
   }
 }
 
