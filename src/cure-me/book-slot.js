@@ -6,6 +6,7 @@ import '@polymer/paper-dialog/paper-dialog.js';
 import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-toast/paper-toast.js';
 import '@polymer/app-route/app-location.js';
+
 /**
  * @customElement
  * @polymer
@@ -38,10 +39,18 @@ class BookSlot extends PolymerElement {
         {
           background:red;
         }
+        #back
+        {
+          background:white;
+          color:black;
+          width:100px;
+          margin-top:10px;
+        }
         [hidden] {
           display: none !important;
-        }      
+        }    
       </style>
+      <paper-button on-click="_handleBack" id="back" raised>Back</paper-button>
       <h2>You are Booking appointment for {{doctorName}}</h2>
       <app-location route="{{route}}"></app-location>
       <ajax-call id="ajax"></ajax-call>
@@ -50,10 +59,12 @@ class BookSlot extends PolymerElement {
       <template is="dom-repeat" items={{item.slots}} as="slot">
       <paper-card heading="{{slot.slotTime}}" image="" elevation="1" animated-shadow="false">
         <div class="card-content">
-        <p>status {{slot.availableStatus}}</p>
+        <p>{{slot.availableStatus}}</p>
         </div>
         <div class="card-actions"> 
+        <template is="dom-if" if="{{_checkAvailability(slot.availableStatus)}}">
         <paper-button on-click="_handleBook" data-set$={{item.slotDate}} raised>Book Slot</paper-button> 
+        </template>
         </div>
       </paper-card>
       </template>
@@ -97,46 +108,46 @@ class BookSlot extends PolymerElement {
             slotDate: "02-09-19",
             slots: [
               {
-                slotId:424,
+                slotId: 424,
                 slotTime: "10:30 to 11:00",
-                availableStatus:"available"
+                availableStatus: "available"
               },
               {
-                slotId:424,
+                slotId: 424,
                 slotTime: "10:30 to 11:00",
-                availableStatus:"available"
+                availableStatus: "available"
               }],
           },
           {
             slotDate: "02-09-19",
             slots: [
               {
-                slotId:424,
+                slotId: 424,
                 slotTime: "10:30 to 11:00",
-                availableStatus:"available"
+                availableStatus: "available"
               }],
           }
         ]
       },
-      slotTime:{
-        type:String,
-        value:''
+      slotTime: {
+        type: String,
+        value: ''
       },
-      slotDate:{
-        type:String,
-        value:''
+      slotDate: {
+        type: String,
+        value: ''
       },
-      slotId:{
-        type:Number,
-        value:0
+      slotId: {
+        type: Number,
+        value: 0
       },
-      doctorId:{
-        type:Number,
-        value:0
+      doctorId: {
+        type: Number,
+        value: 0
       },
-      hide:{
-        type:Boolean,
-        value:false
+      hide: {
+        type: Boolean,
+        value: false
       }
     };
   }
@@ -145,52 +156,57 @@ class BookSlot extends PolymerElement {
     let doctorDetails = JSON.parse(sessionStorage.getItem('selectedDoctor'));
     let { doctorName, doctorId } = doctorDetails;
     this.doctorName = doctorName;
-    this.doctorId=doctorId;
-    this.addEventListener('ajax-response',e=> this._slotsList(e))
-    this.addEventListener('book-slot',e=> this._confirmationMessage(e))
+    this.doctorId = doctorId;
+    this.addEventListener('ajax-response', e => this._slotsList(e))
+    this.addEventListener('book-slot', e => this._confirmationMessage(e))
     this.$.ajax._makeAjaxCall('get', `${baseUrl}/cureme/slots/doctors/${doctorId}/availableslots`, null, 'ajaxResponse')
   }
-  _confirmationMessage(event)
-  {
-    this.hide=true;
+  _checkAvailability(slot) {
+    if(slot=="AVAILABLE")
+    {
+      return true;
+    }
+  }
+  _handleBack() {
+    this.set('route.path', './patient-home')
+
+  }
+  _confirmationMessage(event) {
+    this.hide = true;
     console.log(event.detail.data.message)
-    this.message=event.detail.data.message;
+    this.message = event.detail.data.message;
     // this.$.toast.open();
   }
-  _handleRoute()
-  {
+  _handleRoute() {
     this.$.modal.close()
-    this.set('route.path','/patient-home')
+    this.set('route.path', '/patient-home')
   }
-  _slotsList(event)
-  {
-    this.slotDetails=event.detail.data.availableDates;
+  _slotsList(event) {
+    this.slotDetails = event.detail.data.availableDates;
   }
-  _handleBook(event)
-  {
-    let details=event.model.slot
-    this.slotTime=details.slotTime
-    this.$.slotSelected.innerHTML=this.slotTime
+  _handleBook(event) {
+    let details = event.model.slot
+    this.slotTime = details.slotTime
+    this.$.slotSelected.innerHTML = this.slotTime
     this.$.modal.open();
-    this.slotDate=event.target.dataset.set
-    this.slotId=details.slotId
+    this.slotDate = event.target.dataset.set
+    this.slotId = details.slotId
   }
-  _handleSubmit()
-  {
-    let mobileNumber=this.$.mobileNo.value
-    let emailId=this.$.mail.value;
-    let disease=this.$.disease.value;
-    let postObj={
+  _handleSubmit() {
+    let mobileNumber = this.$.mobileNo.value
+    let emailId = this.$.mail.value;
+    let disease = this.$.disease.value;
+    let postObj = {
       disease,
       "doctorId": this.doctorId,
       emailId,
       mobileNumber,
-      "slotDate":this.slotDate,
-      "slotId":this.slotId,
-      "slotTime":this.slotTime
+      "slotDate": this.slotDate,
+      "slotId": this.slotId,
+      "slotTime": this.slotTime
     }
     console.log(postObj)
-    this.$.ajax._makeAjaxCall('post', `http://10.117.189.245:9090/cureme/users/bookslot`,postObj, 'bookSlot')
+    this.$.ajax._makeAjaxCall('post', `${baseUrl}/cureme/users/bookslot`, postObj, 'bookSlot')
   }
 }
 

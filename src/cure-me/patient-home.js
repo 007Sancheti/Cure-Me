@@ -75,12 +75,16 @@ class PatientHome extends PolymerElement {
   }
   li
   {
-    width:60px;
+    width:100px;
   }
   iron-icon
   {
     transform:translate(0px,-2px);
   }
+   #Heading
+   {
+     background:#03a9f4;
+   }
 </style>
 <ajax-call id="ajax"></ajax-call>
 <app-location route="{{route}}"></app-location>
@@ -96,10 +100,19 @@ class PatientHome extends PolymerElement {
 <paper-button raised on-click="_handleSearch">Search</paper-button>
 </div>
 <div id="grid3">
+<ul id="Heading">
+      <li>Doctor Id</li>
+      <li>Doctor Name</li>
+      <li>Qualification</li>
+      <li>Experience</li>
+      <li>Specialization</li>
+      <li>Disease Cured</li>
+      <li>Rating</li>
+      <li>Location</li>
+</ul>
 <template is="dom-repeat" items={{doctorsList}}>
 <ul on-click="_handleView">
 <li>{{item.doctorId}}</li>
-<li>{{item.doctorName}}</li>
 <li>{{item.doctorName}}</li>
 <li>{{item.qualification}}</li>
 <li>{{item.experience}}</li>
@@ -117,7 +130,7 @@ class PatientHome extends PolymerElement {
     return {
       items: {
         type: Array,
-        value: ['bangalore','Electronic city', 'Delhi', 'Bannerghatta']
+        value: ['Bangalore','Electronic city', 'Delhi', 'Bannerghatta','Bareilly','Denmark','Australia']
       },
       hide: {
         type: Boolean,
@@ -125,26 +138,7 @@ class PatientHome extends PolymerElement {
       },
       doctorsList:{
         type:Array,
-        value:[{
-          doctorId:1,
-          doctorName:"Dr.Muthu",
-          qualification:"String",
-          experience:1.5,
-          specialization:"String",
-          diseaseCure:"String",
-          rating:5,
-          location:"String"
-          },
-          {
-            doctorId:2,
-            doctorName:"Dr.Sri Keerthana",
-            qualification:"String",
-            experience:1.5,
-            specialization:"String",
-            diseaseCure:"String",
-            rating:5,
-            location:"String"
-            }]
+        value:[]
       }
     };
   }

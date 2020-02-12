@@ -17,9 +17,9 @@ class DoctorLogin extends PolymerElement {
         display: block;
         background: linear-gradient(to right, #c9d6ff, #e2e2e2);
         overflow-y:hidden;
-        height:80vh;
+        height:87vh;
       }
-      input[type=number] {
+      input[type=text] {
         height: 45px;
         width: 45px;
         font-size: 25px;
@@ -47,11 +47,11 @@ class DoctorLogin extends PolymerElement {
       <form>
       <paper-input id="mobileNumber" required allowed-pattern=[0-9] minlength="10" maxlength="10" label="Enter Mobile Number"></paper-input>
      <div id="otp" hidden$=[[!visible]]>
-      <input id="codeBox1" type="number" maxlength="1" on-keyup="onKeyUpEvent" on-focus="onFocusEvent"/>
-      <input id="codeBox2" type="number" maxlength="1" on-keyup="onKeyUpEvent" on-focus="onFocusEvent"/>
-      <input id="codeBox3" type="number" maxlength="1" on-keyup="onKeyUpEvent" on-focus="onFocusEvent"/>
-      <input id="codeBox4" type="number" maxlength="1" on-keyup="onKeyUpEvent" on-focus="onFocusEvent"/>
-      <input id="codeBox5" type="number" maxlength="1" on-keyup="onKeyUpEvent" on-focus="onFocusEvent"/>    
+      <input id="codeBox1" type="text" pattern="[0-9]" maxlength="1" on-keyup="onKeyUpEvent" on-focus="onFocusEvent"/>
+      <input id="codeBox2" type="text" pattern="[0-9]" maxlength="1" on-keyup="onKeyUpEvent" on-focus="onFocusEvent"/>
+      <input id="codeBox3" type="text" pattern="[0-9]" maxlength="1" on-keyup="onKeyUpEvent" on-focus="onFocusEvent"/>
+      <input id="codeBox4" type="text" pattern="[0-9]" maxlength="1" on-keyup="onKeyUpEvent" on-focus="onFocusEvent"/>
+      <input id="codeBox5" type="text" pattern="[0-9]" maxlength="1" on-keyup="onKeyUpEvent" on-focus="onFocusEvent"/>    
       </div>
       <span><paper-button on-click="_sendOtp" raised id="requestOtp" hidden$=[[visible]]>Request Otp</paper-button></span>
       <span><paper-button on-click="_sendOtp" raised id="resendOtp" hidden$=[[!visible]]>Resend Otp</paper-button>
@@ -96,7 +96,7 @@ class DoctorLogin extends PolymerElement {
    if(mobileNumber.length==10){
     this.visible=true;
     let postObj={mobileNumber:parseInt(mobileNumber)}
-     this.$.ajax._makeAjaxCall('post',`http://10.117.189.28:9090/cureme/users`,postObj,'')  
+     this.$.ajax._makeAjaxCall('post',`${baseUrl}/cureme/users`,postObj,'')  
     }
     else{
       this.message='enter valid mobile no.';
@@ -112,9 +112,9 @@ class DoctorLogin extends PolymerElement {
   _loginStatus(event)
   {
       const data=event.detail.data;
-      this.message=`${data.message}`
+      this.message=`${data.message}`;
       this.$.toast.open();
-      if(data.role='Doctor'){
+      if(data.role='DOCTOR'){
       sessionStorage.setItem('userId',data.userId);
       sessionStorage.setItem('doctorId',data.doctorId);
       this.set('route.path','./doctor-dashboard')

@@ -14,7 +14,17 @@ class DoctorDashboard extends PolymerElement {
           background: linear-gradient(to right, #c9d6ff, #e2e2e2);
           overflow-y:hidden;
         }
-        
+        paper-button
+        {
+          background:white;
+        }
+        #add
+        {
+          margin-top:10px;
+          margin-right:20px;
+          display:flex;
+          justify-content:flex-end;
+        }
         table
         {
           border-collapse: collapse;
@@ -36,12 +46,16 @@ class DoctorDashboard extends PolymerElement {
                      color:white;
                      font-weight: bolder;
                      text-align: left;
-                     background-color:gray;
+                     background-color:lightgreen;
                    }
                    #slotTable{
                      margin-top:10px
                    }
       </style>
+      <div id="add">
+      <paper-button on-click="_handleAdd" raised>Add Slot</paper-button>
+      <paper-button on-click="_handleLogout" raised>logout</paper-button>
+      </div>
       <app-location route={{route}}></app-location>
       <ajax-call id="ajax"></ajax-call>
       <table id="slotTable">
@@ -82,12 +96,24 @@ class DoctorDashboard extends PolymerElement {
     super.ready();
     this.addEventListener('ajax-response', (e) => this._patientDetails(e))
   }
+  _handleAdd()
+  {
+    this.set('route.path','./add-slot')
+
+  }
+  _handleLogout()
+  {
+    sessionStorage.clear();
+    this.set('route.path','./landing-page')
+
+  }
   /** 
    * call the API to fetch the data to render it on the screen
    */
   connectedCallback()
   {  super.connectedCallback();
-     this.$.ajax._makeAjaxCall('get',`http://10.117.189.176:9090/cureme/slots/doctors/1`,null,'ajaxResponse')  
+    console.log(sessionStorage.getItem('doctorId'))
+     this.$.ajax._makeAjaxCall('get',`${baseUrl}/cureme/slots/doctors/${sessionStorage.getItem('doctorId')}`,null,'ajaxResponse')  
   }
   //populating data in dom repeat for account details
   _patientDetails(event){  

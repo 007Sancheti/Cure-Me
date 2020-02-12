@@ -8,6 +8,8 @@ import '@polymer/paper-toast/paper-toast.js';
 import '@polymer/iron-form/iron-form.js';
 import '@polymer/paper-dialog/paper-dialog.js';
 import './shared/api/ajax-call.js';
+import '@polymer/app-route/app-location.js';
+
 
 /**
  * @customElement
@@ -42,7 +44,15 @@ class AddSlot extends PolymerElement {
           color:blue;
           text-align:center;
       } 
+      paper-button
+      {
+        background:white;
+      }
     </style>
+    <app-location route={{route}}></app-location>
+    <div id="back">
+    <paper-button on-click="_handleBack" raised>Back </paper-button>
+    </div>
     <ajax-call id="ajax"></ajax-call>
     <iron-form id="form">
     <h1>Add Slot</h1>
@@ -102,14 +112,14 @@ class AddSlot extends PolymerElement {
      }
      else{
       const postObj={availableFromDate,availableToDate,availableFrom,availableTo,location}
-      this.$.ajax._makeAjaxCall('post',`http://10.117.189.176:9090/cureme/slots/doctors/1`,postObj,'ajaxResponse')  
+      this.$.ajax._makeAjaxCall('post',`${baseUrl}/cureme/slots/doctors/${sessionStorage.getItem('doctorId')}`,postObj,'ajaxResponse')  
   }
     }
   /**
    * showing message if slots are added sucessfully
    */
 _addSlots(){
-  this.message="Your Slot booking is sucessfull";
+  this.message="Slot Added Successfully";
   this.$.modal.open();
 }
 /**
@@ -117,6 +127,11 @@ _addSlots(){
  */
 _handleOk() {
   this.$.form.reset();
+}
+_handleBack()
+{
+  this.set('route.path','./doctor-dashboard')
+
 }
 }
 
