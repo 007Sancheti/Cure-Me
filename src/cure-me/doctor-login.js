@@ -51,7 +51,7 @@ class DoctorLogin extends PolymerElement {
       <input id="codeBox5" type="number" maxlength="1" on-keyup="onKeyUpEvent" on-focus="onFocusEvent"/>    
       </div>
       <span><paper-button on-click="_sendOtp" raised id="requestOtp" hidden$=[[visible]]>Request Otp</paper-button></span>
-      <span><paper-button on-click="_sendOtp" raised id="requestOtp" hidden$=[[!visible]]>Resend Otp</paper-button>
+      <span><paper-button on-click="_sendOtp" raised id="resendOtp" hidden$=[[!visible]]>Resend Otp</paper-button>
       <paper-button on-click="_handleSubmit" raised id="submit" hidden$=[[!visible]]>Submit</paper-button>
       </span>
       </form>

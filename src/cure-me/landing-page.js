@@ -11,16 +11,25 @@ class LoginPage extends PolymerElement {
       <style>
         :host {
           display: block;
+          background: linear-gradient(to right, #c9d6ff, #e2e2e2);
+          overflow-y:hidden;
         }
         .form
         {
-          background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
+          background: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
           width:400px;
           height:250px;
           margin:70px auto;
           padding:15px;
-          box-shadow:0px 0px 2px 3px;
+          box-shadow:0px 0px 2px 3px; 
+          text-align:center;
+          
         }
+        paper-button{
+          width:70%;
+          margin-top:10px;
+        }
+
       </style>
       <app-location route={{route}}></app-location>
       <form class="form">
