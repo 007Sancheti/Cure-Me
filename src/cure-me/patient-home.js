@@ -55,10 +55,6 @@ class PatientHome extends PolymerElement {
   }
 </style>
 <h2>Hello [[prop1]]!</h2>
-<!-- <input id="field" value="{{filterVal::input}}"></input>
-      <template is="dom-repeat" items="[[items]]" filter="{{_filterDoctor(filterVal)}}">
-    <div on-click="select">{{item.name}} Speciality:{{item.speciality}}</div>
-  </template> -->
 <div id="search-container">
   <div id="grid1">
 <input id="field" placeholder="Location" value="{{filterVal::input}}" />
@@ -81,7 +77,7 @@ class PatientHome extends PolymerElement {
       },
       items: {
         type: Array,
-        value: ['Electronic city', 'Delhi', 'Bannerghatta']
+        value: ['bangalore','Electronic city', 'Delhi', 'Bannerghatta']
       },
       hide: {
         type: Boolean,
@@ -119,6 +115,7 @@ class PatientHome extends PolymerElement {
   _handleSearch()
   {
     const search= this.$.search.value;
+    this.$.ajax._makeAjaxCall('get',`http://10.117.189.245:9090/cureme/users?location=bangalore&searchkey=cough`,null,'search')
   }
 }
 
