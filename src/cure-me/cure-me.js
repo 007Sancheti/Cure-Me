@@ -20,7 +20,6 @@ import '@polymer/iron-icons/iron-icons.js';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
 import { setRootPath } from '@polymer/polymer/lib/utils/settings.js';
 import '@polymer/font-roboto/roboto.js';
-
 /**
  * @customElement
  * @polymer
