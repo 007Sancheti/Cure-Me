@@ -26,7 +26,7 @@ class DoctorLogin extends PolymerElement {
       #login
       {
         background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
-        width:auto;
+        width:50%;
         margin:70px auto;
         padding:15px;
         box-shadow:0px 0px 5px 5px;
