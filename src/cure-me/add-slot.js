@@ -35,9 +35,7 @@ class AddSlot extends PolymerElement {
       h1{
           color:blue;
           text-align:center;
-      }
-
-      
+      } 
     </style>
     <ajax-call id="ajax"></ajax-call>
     <iron-form id="form">
