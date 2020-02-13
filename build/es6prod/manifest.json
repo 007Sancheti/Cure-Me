@@ -1,0 +1,7 @@
+{
+  "name": "Cure-Me",
+  "short_name": "Cure-Me",
+  "description": "patient doctor app",
+  "start_url": "/",
+  "display": "standalone"
+}

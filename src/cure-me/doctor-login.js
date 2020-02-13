@@ -5,6 +5,7 @@ import '@polymer/paper-toast/paper-toast.js';
 import '@polymer/iron-form/iron-form.js';
 import './shared/api/ajax-call.js';
 import '@polymer/app-route/app-location.js';
+import '@polymer/iron-a11y-keys/iron-a11y-keys.js';
 /**
  * @customElement
  * @polymer
@@ -41,6 +42,7 @@ class DoctorLogin extends PolymerElement {
         }
       </style>
       <app-location route={{route}}></app-location>
+      <!-- <iron-a11y-keys id="keys" keys="enter" target="{{target}}" on-keys-pressed="_sendOtp"></iron-a11y-keys> -->
       <paper-toast text={{message}} id="toast"></paper-toast>
       <ajax-call id="ajax"></ajax-call>
       <iron-form id="login">
