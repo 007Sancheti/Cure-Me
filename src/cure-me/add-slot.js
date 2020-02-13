@@ -130,7 +130,9 @@ _handleOk() {
 }
 _handleBack()
 {
-  this.set('route.path','./doctor-dashboard')
+  window.history.pushState({}, null, '#/doctor-dashboard');
+  window.dispatchEvent(new CustomEvent('location-changed'));
+  // this.set('route.path','./doctor-dashboard')
 
 }
 }

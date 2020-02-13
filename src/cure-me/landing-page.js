@@ -1,4 +1,4 @@
-import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/app-route/app-location.js';
 /**
@@ -42,14 +42,19 @@ class LoginPage extends PolymerElement {
   }
   static get properties() {
     return {
-     
+
     };
   }
-  _handleDoctor(){
-    this.set('route.path','./doctor-login')
+  _handleDoctor() {
+    //this.set('route.path','/doctor-login')
+    window.history.pushState({}, null, '#/doctor-login');
+    window.dispatchEvent(new CustomEvent('location-changed'));
+
   }
-  _handlePatient(){
-    this.set('route.path','./patient-home')
+  _handlePatient() {
+    // this.set('route.path','/patient-home')
+    window.history.pushState({}, null, '#/patient-home');
+    window.dispatchEvent(new CustomEvent('location-changed'));
   }
 }
 

@@ -72,7 +72,9 @@ define(["../../node_modules/@polymer/polymer/polymer-element.js","./shared/api/a
 </table>
     `}static get properties(){return{patientDetails:{type:Array,value:[{slotTime:"1234567",slotDate:"1234567",disease:"1234567",mobileNumber:"1234567",emailId:"1234567"},{slotTime:"1234567",slotDate:"1234567",disease:"1234567",mobileNumber:"1234567",emailId:"1234567"},{slotTime:"1234567",slotDate:"1234567",disease:"1234567",mobileNumber:"1234567",emailId:"1234567"}]}}}/**
    * listening customEvents sent from child elements
-   */ready(){super.ready();this.addEventListener("ajax-response",e=>this._patientDetails(e))}_handleAdd(){this.set("route.path","./add-slot")}_handleLogout(){sessionStorage.clear();this.set("route.path","./landing-page")}/** 
+   */ready(){super.ready();this.addEventListener("ajax-response",e=>this._patientDetails(e))}_handleAdd(){//this.set('route.path','./add-slot')
+window.history.pushState({},null,"#/add-slot");window.dispatchEvent(new CustomEvent("location-changed"))}_handleLogout(){sessionStorage.clear();//this.set('route.path','./landing-page')
+window.history.pushState({},null,"#/landing-page");window.dispatchEvent(new CustomEvent("location-changed"))}/** 
    * call the API to fetch the data to render it on the screen
    */connectedCallback(){super.connectedCallback();console.log(sessionStorage.getItem("doctorId"));this.$.ajax._makeAjaxCall("get",`${baseUrl}/cureme/slots/doctors/${sessionStorage.getItem("doctorId")}`,null,"ajaxResponse")}//populating data in dom repeat for account details
 _patientDetails(event){this.patientDetails=event.detail.data.slots}}window.customElements.define("doctor-dashboard",DoctorDashboard)});

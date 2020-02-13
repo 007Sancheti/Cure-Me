@@ -1,4 +1,4 @@
-import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-toast/paper-toast.js';
@@ -65,25 +65,24 @@ class DoctorLogin extends PolymerElement {
   }
   static get properties() {
     return {
-      message:{
-        type:String,
-        value:''
+      message: {
+        type: String,
+        value: ''
       },
-      visible:{
-        type:String,
-        value:false
+      visible: {
+        type: String,
+        value: false
       },
-      otp:{
-        type:String,
-        value:''
+      otp: {
+        type: String,
+        value: ''
       },
     };
   }
   /**
    * listening customEvents sent from child elements
    */
-  ready()
-  {
+  ready() {
     super.ready();
     this.addEventListener('ajax-response', (e) => this._loginStatus(e))
   }
@@ -93,76 +92,76 @@ class DoctorLogin extends PolymerElement {
    * validate if mobile No. has 10 digits or not
    * get the user details from the database
    */
-  _sendOtp(){
-  const mobileNumber= this.$.mobileNumber.value;
-   if(mobileNumber.length==10){
-    this.visible=true;
-    let postObj={mobileNumber:parseInt(mobileNumber)}
-     this.$.ajax._makeAjaxCall('post',`${baseUrl}/cureme/users`,postObj,'')  
+  _sendOtp() {
+    const mobileNumber = this.$.mobileNumber.value;
+    if (mobileNumber.length == 10) {
+      this.visible = true;
+      let postObj = { mobileNumber: parseInt(mobileNumber) }
+      this.$.ajax._makeAjaxCall('post', `${baseUrl}/cureme/users`, postObj, '')
     }
-    else{
-      this.message='enter valid mobile no.';
+    else {
+      this.message = 'enter valid mobile no.';
       this.$.toast.open();
     }
-  } 
+  }
   /**
    * 
    * @param {*} event 
    * handles the response sent by the database
    * transfer the user on the base of role as customer or staff to respective page
    */
-  _loginStatus(event)
-  {
-      const data=event.detail.data;
-      this.message=`${data.message}`;
-      this.$.toast.open();
-      if(data.role='DOCTOR'){
-      sessionStorage.setItem('userId',data.userId);
-      sessionStorage.setItem('doctorId',data.doctorId);
-      this.set('route.path','./doctor-dashboard')
-}
-  }
-_handleSubmit(){
-  const mobileNumber= this.$.mobileNumber.value;
-  for(let i=1;i<=5;i++)
-  {
-    let input=this.getCodeBoxElement(i).value;
-     this.otp+=input;
-  }
-  let postObj={mobileNumber:parseInt(mobileNumber),otp:parseInt(this.otp)}
-  console.log(postObj)
-  this.$.ajax._makeAjaxCall('post',`http://10.117.189.28:9090/cureme/otp`,postObj,'ajaxResponse')  
-}
-getCodeBoxElement(index) {
-  return this.shadowRoot.getElementById('codeBox' + index);
-}
- onKeyUpEvent(event) {
-   let id=event.target.id
-   let index=parseInt(id.substr(7,8))
-  const eventCode = event.which || event.keyCode;
-  if (this.getCodeBoxElement(index).value.length === 1) {
-    if (index !== 5) {
-      this.getCodeBoxElement(index+1).focus();
-    } else {
-      this.getCodeBoxElement(index).blur();
-
+  _loginStatus(event) {
+    const data = event.detail.data; //??? ;
+    this.message = `${data.message}`;
+    this.$.toast.open();
+    if (data.role === 'DOCTOR') {
+      sessionStorage.setItem('userId', data.userId);
+      sessionStorage.setItem('doctorId', data.doctorId);
+      // this.set('route.path','#/doctor-dashboard')
+      window.history.pushState({}, null, '#/doctor-dashboard');
+      window.dispatchEvent(new CustomEvent('location-changed'));
     }
   }
-  if (eventCode === 8 && index !== 1) {
-    this.getCodeBoxElement(index - 1).focus();
+  _handleSubmit() {
+    const mobileNumber = this.$.mobileNumber.value;
+    for (let i = 1; i <= 5; i++) {
+      let input = this.getCodeBoxElement(i).value;
+      this.otp += input;
+    }
+    let postObj = { mobileNumber: parseInt(mobileNumber), otp: parseInt(this.otp) }
+    console.log(postObj)
+    this.$.ajax._makeAjaxCall('post', `http://10.117.189.28:9090/cureme/otp`, postObj, 'ajaxResponse')
   }
-}
- onFocusEvent(event) {
-  let id=event.target.id
-  let index=id.substr(7,8)
-  for (let item = 1; item < index; item++) {
-    const currentElement = this.getCodeBoxElement(item);
-    if (!currentElement.value) {
+  getCodeBoxElement(index) {
+    return this.shadowRoot.getElementById('codeBox' + index);
+  }
+  onKeyUpEvent(event) {
+    let id = event.target.id
+    let index = parseInt(id.substr(7, 8))
+    const eventCode = event.which || event.keyCode;
+    if (this.getCodeBoxElement(index).value.length === 1) {
+      if (index !== 5) {
+        this.getCodeBoxElement(index + 1).focus();
+      } else {
+        this.getCodeBoxElement(index).blur();
+
+      }
+    }
+    if (eventCode === 8 && index !== 1) {
+      this.getCodeBoxElement(index - 1).focus();
+    }
+  }
+  onFocusEvent(event) {
+    let id = event.target.id
+    let index = id.substr(7, 8)
+    for (let item = 1; item < index; item++) {
+      const currentElement = this.getCodeBoxElement(item);
+      if (!currentElement.value) {
         currentElement.focus();
         break;
+      }
     }
   }
-}
 
 }
 

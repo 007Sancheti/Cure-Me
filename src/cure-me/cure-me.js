@@ -96,7 +96,7 @@ class CureMe extends PolymerElement {
     color:white;
   }
   </style>
-        <app-location id="location" route="{{route}}"></app-location>
+        <app-location id="location" route="{{route}}" url-space-regex="^[[rootPath]]" use-hash-as-path></app-location>
         <app-route route="{{route}}" data="{{routeData}}" pattern="[[rootPath]]:page" tail="{{subRoute}}"></app-route>
         <app-drawer-layout force-narrow>
           <app-drawer id="drawer" slot="drawer">

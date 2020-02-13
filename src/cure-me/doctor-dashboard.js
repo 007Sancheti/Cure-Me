@@ -98,13 +98,17 @@ class DoctorDashboard extends PolymerElement {
   }
   _handleAdd()
   {
-    this.set('route.path','./add-slot')
+    //this.set('route.path','./add-slot')
+    window.history.pushState({}, null, '#/add-slot');
+    window.dispatchEvent(new CustomEvent('location-changed'));
 
   }
   _handleLogout()
   {
     sessionStorage.clear();
-    this.set('route.path','./landing-page')
+    //this.set('route.path','./landing-page')
+    window.history.pushState({}, null, '#/landing-page');
+    window.dispatchEvent(new CustomEvent('location-changed'));
 
   }
   /** 

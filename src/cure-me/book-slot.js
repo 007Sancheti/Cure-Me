@@ -168,7 +168,9 @@ class BookSlot extends PolymerElement {
     }
   }
   _handleBack() {
-    this.set('route.path', './patient-home')
+    window.history.pushState({}, null, '#/patient-home');
+    window.dispatchEvent(new CustomEvent('location-changed'));
+    // this.set('route.path', './patient-home')
 
   }
   _confirmationMessage(event) {
@@ -179,7 +181,9 @@ class BookSlot extends PolymerElement {
   }
   _handleRoute() {
     this.$.modal.close()
-    this.set('route.path', '/patient-home')
+    window.history.pushState({}, null, '#/patient-home');
+    window.dispatchEvent(new CustomEvent('location-changed'));
+    // this.set('route.path', '/patient-home')
   }
   _slotsList(event) {
     this.slotDetails = event.detail.data.availableDates;
